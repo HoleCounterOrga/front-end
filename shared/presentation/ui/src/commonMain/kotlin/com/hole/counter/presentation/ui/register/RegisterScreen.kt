@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.hole.counter.presentation.ui.commons.components.CardRegisterComponent
+import com.hole.counter.presentation.ui.register.components.CardRegisterComponent
 import com.hole.counter.presentation.ui.register.navigator.RegisterComponent
 import com.hole.counter.viewmodels.register.RegisterViewModel
 import org.koin.compose.viewmodel.koinViewModel

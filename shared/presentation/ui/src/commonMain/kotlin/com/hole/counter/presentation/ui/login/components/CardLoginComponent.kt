@@ -1,4 +1,4 @@
-package com.hole.counter.presentation.ui.commons.components
+package com.hole.counter.presentation.ui.login.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,26 +10,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.hole.counter.presentation.ui.commons.components.TextFieldComponent
 
 @Composable
-fun CardRegisterComponent(
-    // Utilisé pour renvoyer vers le login si register ou déjà inscrit
-    onRegisterClicked: () -> Unit,
+fun CardLoginComponent(
+    onLoginClicked: () -> Unit,
 ) {
-    // States pour les champs de texte
-    val password = remember { mutableStateOf("") }
-    val confirmPassword = remember { mutableStateOf("") }
-    val passwordsMatch = password.value == confirmPassword.value
+    var checked by remember { mutableStateOf(true) }
 
     Card(
         modifier = Modifier
@@ -43,7 +43,7 @@ fun CardRegisterComponent(
             horizontalAlignment = Alignment.CenterHorizontally, // Centre horizontalement
         ) {
             Text(
-                text = "Inscription",
+                text = "Connexion",
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -57,55 +57,30 @@ fun CardRegisterComponent(
                 onValueChange = {}
             )
 
-            // Champ adresse email
+            // Champ mot de passe
             TextFieldComponent(
                 value = "",
-                placeholder = "Adresse Email",
+                placeholder = "Mot de passe",
                 onValueChange = {}
             )
 
-            // Champ mot de passe
-            TextFieldComponent(
-                value = password.value,
-                placeholder = "Mot de passe",
-                onValueChange = { password.value = it }
+            Text(
+                "Minimal checkbox"
+            )
+            Checkbox(
+                checked = checked,
+                onCheckedChange = { checked = it }
             )
 
-            // Champ confirmation du mot de passe
-            TextFieldComponent(
-                value = confirmPassword.value,
-                placeholder = "Confirmer le Mot de passe",
-                onValueChange = { confirmPassword.value = it }
+            Text(
+                if (checked) "Checkbox is checked" else "Checkbox is unchecked"
             )
 
-            // Renvoie une erreur si le password est vide ou ne correspond pas
-            if (!passwordsMatch && confirmPassword.value.isNotEmpty()) {
-                Text(
-                    text = "Les mots de passe ne correspondent pas",
-                    color = Color.Red,
-                    modifier = Modifier.padding(8.dp)
-                )
-            }
-
-            // Bouton d'inscription (renvoie vers le formulaire de login)
+            // Bouton de connexion (renvoie vers le formulaire de login)
             Button(
                 onClick = {
-                    if (passwordsMatch) {
-                        onRegisterClicked()
-                    }
+                    onLoginClicked()
                 },
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Black, // Fond noir
-                    contentColor = Color.White   // Texte blanc
-                ),
-                modifier = Modifier.fillMaxWidth().padding(16.dp) // Ajout de marges si nécessaire
-            ) {
-                Text(text = "Créer un compte")
-            }
-
-            // Bouton de login (renvoie vers le formulaire de login)
-            Button(
-                onClick = { onRegisterClicked() },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Black, // Fond noir
                     contentColor = Color.White   // Texte blanc

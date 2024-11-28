@@ -3,7 +3,6 @@ package com.hole.counter.presentation.ui.login
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -12,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.hole.counter.presentation.ui.commons.components.CardLoginComponent
+import com.hole.counter.presentation.ui.login.components.CardLoginComponent
 import com.hole.counter.presentation.ui.login.navigator.LoginComponent
 import com.hole.counter.viewmodels.login.LoginViewModel
 import org.koin.compose.viewmodel.koinViewModel
