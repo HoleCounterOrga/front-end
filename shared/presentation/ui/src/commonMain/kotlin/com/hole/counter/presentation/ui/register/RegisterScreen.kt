@@ -4,12 +4,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.hole.counter.presentation.ui.commons.components.CardComponent
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import com.hole.counter.presentation.ui.commons.components.CardRegisterComponent
 import com.hole.counter.presentation.ui.register.navigator.RegisterComponent
 import com.hole.counter.viewmodels.register.RegisterViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -29,7 +33,14 @@ fun RegisterScreen(
             horizontalAlignment = Alignment.CenterHorizontally // Centre horizontalement
         )  {
 
-            CardComponent(
+            Text(
+                text = "Hole Counter",
+                fontSize = 50.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Cursive
+            )
+
+            CardRegisterComponent(
                 onRegisterClicked = {
                     component.onRegister()
                 }

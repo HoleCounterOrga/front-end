@@ -9,7 +9,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.hole.counter.presentation.ui.commons.components.CardComponent
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import com.hole.counter.presentation.ui.commons.components.CardLoginComponent
 import com.hole.counter.presentation.ui.login.navigator.LoginComponent
 import com.hole.counter.viewmodels.login.LoginViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -27,10 +30,18 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally // Centre horizontalement
         )  {
 
-            CardComponent(
-                onRegisterClicked = {
+            Text(
+                text = "Hole Counter",
+                fontSize = 50.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Cursive
+            )
+
+            CardLoginComponent(
+                onLoginClicked = {
                     component.onLogin()
                 }
+
             )
         }
     }
