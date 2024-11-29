@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.hole.counter.data.authentication.repository.AuthenticationRepositoryImpl
 import com.hole.counter.domain.authentication.register.RegisterUseCase
 import com.hole.counter.domain.authentication.register.models.RegisterUseCaseModel
+import com.hole.counter.viewmodels.register.models.RegisterTextFields
 import com.hole.counter.viewmodels.register.models.RegisterUiStateModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(
@@ -18,23 +20,26 @@ class RegisterViewModel(
     private val _viewState = MutableStateFlow(RegisterUiStateModel())
     val viewState: StateFlow<RegisterUiStateModel> = _viewState.asStateFlow()
 
-    private val _navigateToLogin = MutableStateFlow(false) // Nouvel état pour la navigation
-    val navigateToLogin: StateFlow<Boolean> = _navigateToLogin.asStateFlow()
+    fun onValueChange(value: String, field: RegisterTextFields){
 
-    fun register(username: String, email: String, password: String, role: String) {
-        viewModelScope.launch {
-            val result = registerUseCase(username, email, password, role)
-            _viewState.value = when (result) {
-                is RegisterUseCaseModel.Success -> {
-                    _navigateToLogin.value = true // Indiquer que la navigation est nécessaire
-                    RegisterUiStateModel(success = true)
-                }
-                is RegisterUseCaseModel.Failure -> RegisterUiStateModel(success = false, errorMessage = "Registration failed")
-            }
-        }
     }
 
-    fun resetNavigationFlag() {
-        _navigateToLogin.value = false // Réinitialiser l'état de navigation
+    fun register() {
+        val currentState = viewState.value.state as? RegisterUiStateModel.State.Init ?: return
+        val formData = currentState.registerFormUiModel
+        viewModelScope.launch {
+            val updatedState = when(registerUseCase(formData.username, formData.email, formData.password, formData.passwordConfirmation)){
+                is RegisterUseCaseModel.Success -> {
+                    RegisterUiStateModel.State.Success
+                }
+                is RegisterUseCaseModel.Failure -> RegisterUiStateModel.State.Failure
+            }
+
+            _viewState.update {
+                it.copy(
+                    state = updatedState
+                )
+            }
+        }
     }
 }

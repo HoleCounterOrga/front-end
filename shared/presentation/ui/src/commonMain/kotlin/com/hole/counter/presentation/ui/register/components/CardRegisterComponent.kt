@@ -23,46 +23,45 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hole.counter.presentation.ui.commons.components.TextFieldComponent
+import com.hole.counter.viewmodels.register.models.RegisterFormUiModel
+import com.hole.counter.viewmodels.register.models.RegisterTextFields
 
 @Composable
 fun CardRegisterComponent(
+    registerFormUiModel: RegisterFormUiModel,
     onRegisterClicked: () -> Unit,
     onLoginClicked: () -> Unit,
-    onRegister: (String, String, String, String) -> Unit
+    onValueChange: (String, RegisterTextFields) -> Unit,
 ) {
-    val username = remember { mutableStateOf("") }
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-    val confirmPassword = remember { mutableStateOf("") }
-    val role = remember { mutableStateOf("user") } // Rôle par défaut
-    val passwordsMatch = password.value == confirmPassword.value
+
+    val passwordsMatch = registerFormUiModel.password == registerFormUiModel.passwordConfirmation
 
     Column {
         // Champs de texte et logique d'affichage
         TextFieldComponent(
-            value = username.value,
+            value = registerFormUiModel.username,
             placeholder = "Nom d'utilisateur",
-            onValueChange = { username.value = it }
+            onValueChange = { onValueChange(it,RegisterTextFields.Username ) }
         )
         TextFieldComponent(
-            value = email.value,
+            value = registerFormUiModel.email,
             placeholder = "Adresse Email",
-            onValueChange = { email.value = it }
+            onValueChange = { onValueChange(it,RegisterTextFields.Email ) }
         )
         TextFieldComponent(
             isPassword = true,
-            value = password.value,
+            value = registerFormUiModel.password,
             placeholder = "Mot de passe",
-            onValueChange = { password.value = it }
+            onValueChange = { onValueChange(it,RegisterTextFields.Password ) }
         )
         TextFieldComponent(
             isPassword = true,
-            value = confirmPassword.value,
+            value =  registerFormUiModel.passwordConfirmation,
             placeholder = "Confirmer le Mot de passe",
-            onValueChange = { confirmPassword.value = it }
+            onValueChange = { onValueChange(it,RegisterTextFields.PasswordConfirmation ) }
         )
 
-        if (!passwordsMatch && confirmPassword.value.isNotEmpty()) {
+        if (registerFormUiModel.password != registerFormUiModel.passwordConfirmation) {
             Text(
                 text = "Les mots de passe ne correspondent pas",
                 color = androidx.compose.ui.graphics.Color.Red
@@ -73,7 +72,7 @@ fun CardRegisterComponent(
         Button(
             onClick = {
                 if (passwordsMatch) {
-                    onRegister(username.value, email.value, password.value, role.value)
+                    onRegisterClicked()
                 }
             },
             colors = ButtonDefaults.buttonColors(

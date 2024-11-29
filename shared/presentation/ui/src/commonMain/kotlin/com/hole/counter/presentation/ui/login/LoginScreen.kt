@@ -23,13 +23,6 @@ fun LoginScreen(
     component: LoginComponent,
     loginViewModel: LoginViewModel = koinViewModel()
 ){
-    val navigateToLogin by loginViewModel.navigateToLogin.collectAsState()
-    val viewState by loginViewModel.viewState.collectAsState()
-
-    if (navigateToLogin) {
-        component.onLogin() // Redirige vers l'écran de connexion
-        loginViewModel.resetNavigationFlag() // Réinitialiser pour éviter une double navigation
-    }
 
     Scaffold {
         Column(
@@ -50,10 +43,6 @@ fun LoginScreen(
                 onLoginClicked = {
                     component.onLogin()
                 }
-                onRegister = { username, email, password, role ->
-                    registerViewModel.register(username, email, password, role)
-                }
-
             )
         }
     }
