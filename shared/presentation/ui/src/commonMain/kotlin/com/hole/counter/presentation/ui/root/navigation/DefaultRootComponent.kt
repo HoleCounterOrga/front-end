@@ -62,7 +62,8 @@ class DefaultRootComponent(
     private fun registerComponent(componentContext: ComponentContext): RegisterComponent =
         DefaultRegisterComponent(
             componentContext = componentContext,
-            onRegisterNavigation = { navigation.replaceAll(Config.Login)}
+            onRegisterNavigation = { navigation.replaceAll(Config.Login)},
+            onLoginNavigation = { navigation.push(Config.Login)}
         )
 
     private fun addTargetComponent(componentContext: ComponentContext): AddTargetComponent =

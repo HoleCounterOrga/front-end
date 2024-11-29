@@ -26,104 +26,79 @@ import com.hole.counter.presentation.ui.commons.components.TextFieldComponent
 
 @Composable
 fun CardRegisterComponent(
-    // Utilisé pour renvoyer vers le login si register ou déjà inscrit
     onRegisterClicked: () -> Unit,
+    onLoginClicked: () -> Unit,
+    onRegister: (String, String, String, String) -> Unit
 ) {
-    // States pour les champs de texte
-
-    val username = remember { mutableStateOf("")}
-    //val email = remember { mutableStateOf("")}
+    val username = remember { mutableStateOf("") }
+    val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val confirmPassword = remember { mutableStateOf("") }
+    val role = remember { mutableStateOf("user") } // Rôle par défaut
     val passwordsMatch = password.value == confirmPassword.value
 
-    var email by remember { mutableStateOf("")}
+    Column {
+        // Champs de texte et logique d'affichage
+        TextFieldComponent(
+            value = username.value,
+            placeholder = "Nom d'utilisateur",
+            onValueChange = { username.value = it }
+        )
+        TextFieldComponent(
+            value = email.value,
+            placeholder = "Adresse Email",
+            onValueChange = { email.value = it }
+        )
+        TextFieldComponent(
+            isPassword = true,
+            value = password.value,
+            placeholder = "Mot de passe",
+            onValueChange = { password.value = it }
+        )
+        TextFieldComponent(
+            isPassword = true,
+            value = confirmPassword.value,
+            placeholder = "Confirmer le Mot de passe",
+            onValueChange = { confirmPassword.value = it }
+        )
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(800.dp),
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center, // Centre verticalement
-            horizontalAlignment = Alignment.CenterHorizontally, // Centre horizontalement
-        ) {
+        if (!passwordsMatch && confirmPassword.value.isNotEmpty()) {
             Text(
-                text = "Inscription",
-                fontSize = 40.sp,
-                fontWeight = FontWeight.Bold
+                text = "Les mots de passe ne correspondent pas",
+                color = androidx.compose.ui.graphics.Color.Red
             )
+        }
 
-            Spacer(modifier = Modifier.height(12.dp))
+        // Bouton pour créer l'utilisateur
+        Button(
+            onClick = {
+                if (passwordsMatch) {
+                    onRegister(username.value, email.value, password.value, role.value)
+                }
+            },
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Black,
+                contentColor = Color.White
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
 
-            // Champ nom d'utilisateur
-            TextFieldComponent(
-                value = username.value,
-                placeholder = "Nom d'utilisateur",
-                onValueChange = {username.value = it}
-            )
+        ) {
+            Text(text = "Créer un compte")
+        }
 
-            // Champ adresse email
-            TextFieldComponent(
-                value = email,
-                placeholder = "Adresse Email",
-                onValueChange = {email = it}
-            )
-
-            // Champ mot de passe
-            TextFieldComponent(
-                isPassword = true,
-                value = password.value,
-                placeholder = "Mot de passe",
-                onValueChange = { password.value = it }
-            )
-
-            // Champ confirmation du mot de passe
-            TextFieldComponent(
-                isPassword = true,
-                value = confirmPassword.value,
-                placeholder = "Confirmer le Mot de passe",
-                onValueChange = { confirmPassword.value = it }
-            )
-
-            // Renvoie une erreur si le password est vide ou ne correspond pas
-            if (!passwordsMatch && confirmPassword.value.isNotEmpty()) {
-                Text(
-                    text = "Les mots de passe ne correspondent pas",
-                    color = Color.Red,
-                    modifier = Modifier.padding(8.dp)
-                )
-            }
-
-            // Bouton d'inscription (renvoie vers le formulaire de login)
-            Button(
-                onClick = {
-                    if (passwordsMatch) {
-                        onRegisterClicked()
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Black, // Fond noir
-                    contentColor = Color.White   // Texte blanc
-                ),
-                modifier = Modifier.fillMaxWidth().padding(16.dp) // Ajout de marges si nécessaire
-            ) {
-                Text(text = "Créer un compte")
-            }
-
-            // Bouton de login (renvoie vers le formulaire de login)
-            Button(
-                onClick = { onRegisterClicked() },
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Black, // Fond noir
-                    contentColor = Color.White   // Texte blanc
-                ),
-                modifier = Modifier.fillMaxWidth().padding(16.dp) // Ajout de marges si nécessaire
-            ) {
-                Text(text = "Se connecter")
-            }
+        Button(
+            onClick = {
+                onLoginClicked()
+            },
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Black, // Fond noir
+                contentColor = Color.White   // Texte blanc
+            ),
+            modifier = Modifier.fillMaxWidth().padding(16.dp) // Ajout de marges si nécessaire
+        ) {
+            Text(text = "Se connecter")
         }
     }
 }

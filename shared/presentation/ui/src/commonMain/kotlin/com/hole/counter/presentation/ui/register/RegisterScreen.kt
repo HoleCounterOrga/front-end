@@ -22,17 +22,22 @@ import org.koin.compose.viewmodel.koinViewModel
 fun RegisterScreen(
     component: RegisterComponent,
     registerViewModel: RegisterViewModel = koinViewModel()
-){
-    val viewModel by registerViewModel.viewState.collectAsState()
+) {
+    val navigateToLogin by registerViewModel.navigateToLogin.collectAsState()
+    val viewState by registerViewModel.viewState.collectAsState()
+
+    if (navigateToLogin) {
+        component.onRegister() // Redirige vers l'écran de connexion
+        registerViewModel.resetNavigationFlag() // Réinitialiser pour éviter une double navigation
+    }
 
     Scaffold {
         Column(
             modifier = Modifier
-                .fillMaxSize(), // Occupe tout l'espace disponible
-            verticalArrangement = Arrangement.Center, // Centre verticalement
-            horizontalAlignment = Alignment.CenterHorizontally // Centre horizontalement
-        )  {
-
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
                 text = "Hole Counter",
                 fontSize = 50.sp,
@@ -41,10 +46,19 @@ fun RegisterScreen(
             )
 
             CardRegisterComponent(
-                onRegisterClicked = {
-                    component.onRegister()
+                onRegisterClicked = { component.onRegister() },
+                onLoginClicked = { component.onLogin() },
+                onRegister = { username, email, password, role ->
+                    registerViewModel.register(username, email, password, role)
                 }
             )
+
+            if (viewState.errorMessage != null) {
+                Text(
+                    text = viewState.errorMessage!!,
+                    color = androidx.compose.ui.graphics.Color.Red
+                )
+            }
         }
     }
 }

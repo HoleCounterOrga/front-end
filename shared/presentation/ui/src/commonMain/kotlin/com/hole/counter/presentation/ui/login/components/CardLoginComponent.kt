@@ -2,6 +2,7 @@ package com.hole.counter.presentation.ui.login.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,7 +29,11 @@ import com.hole.counter.presentation.ui.commons.components.TextFieldComponent
 @Composable
 fun CardLoginComponent(
     onLoginClicked: () -> Unit,
+    //onCheckedChange: (Boolean) -> Unit
 ) {
+
+    val username = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
     var checked by remember { mutableStateOf(true) }
 
     Card(
@@ -52,31 +57,34 @@ fun CardLoginComponent(
 
             // Champ nom d'utilisateur
             TextFieldComponent(
-                value = "",
+                value = username.value,
                 placeholder = "Nom d'utilisateur",
-                onValueChange = {}
+                onValueChange = { username.value = it }
             )
 
-            // Champ mot de passe
             TextFieldComponent(
-                value = "",
+                isPassword = true,
+                value = password.value,
                 placeholder = "Mot de passe",
-                onValueChange = {}
+                onValueChange = { password.value = it }
             )
 
-            Text(
-                "Minimal checkbox"
-            )
-            Checkbox(
-                checked = checked,
-                onCheckedChange = { checked = it }
-            )
+            /*
+            Row(
+                verticalAlignment = Alignment.CenterVertically, // Aligne les éléments verticalement
+                modifier = Modifier.fillMaxWidth() // Prend toute la largeur disponible
+            ) {
+                Text(
+                    text = "Se souvenir de moi"
+                )
+                Checkbox(
+                    checked = checked,
+                    onCheckedChange = onCheckedChange
+                )
+            }
+            */
 
-            Text(
-                if (checked) "Checkbox is checked" else "Checkbox is unchecked"
-            )
-
-            // Bouton de connexion (renvoie vers le formulaire de login)
+            // Bouton de login (connecte l'utilisateur, renvoie vers la page d'accueil)
             Button(
                 onClick = {
                     onLoginClicked()

@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
@@ -21,6 +23,14 @@ fun LoginScreen(
     component: LoginComponent,
     loginViewModel: LoginViewModel = koinViewModel()
 ){
+    val navigateToLogin by loginViewModel.navigateToLogin.collectAsState()
+    val viewState by loginViewModel.viewState.collectAsState()
+
+    if (navigateToLogin) {
+        component.onLogin() // Redirige vers l'écran de connexion
+        loginViewModel.resetNavigationFlag() // Réinitialiser pour éviter une double navigation
+    }
+
     Scaffold {
         Column(
             modifier = Modifier
@@ -39,6 +49,9 @@ fun LoginScreen(
             CardLoginComponent(
                 onLoginClicked = {
                     component.onLogin()
+                }
+                onRegister = { username, email, password, role ->
+                    registerViewModel.register(username, email, password, role)
                 }
 
             )
