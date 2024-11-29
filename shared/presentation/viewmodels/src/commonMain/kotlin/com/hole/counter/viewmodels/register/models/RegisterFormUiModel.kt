@@ -4,7 +4,7 @@ data class RegisterFormUiModel(
     val email: String = "",
     val username: String = "",
     val password: String = "",
-    val passwordConfirmation: String= "",
+    val passwordConfirmation: String= ""
 )
 
 enum class RegisterTextFields{

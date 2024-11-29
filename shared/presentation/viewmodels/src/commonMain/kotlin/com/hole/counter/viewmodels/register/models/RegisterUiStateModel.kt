@@ -6,7 +6,7 @@ data class RegisterUiStateModel(
     sealed class State{
         data class Init(
             val registerFormUiModel: RegisterFormUiModel = RegisterFormUiModel(),
-            val registerErrorUiModel: RegisterErrorUiStateModel = RegisterErrorUiStateModel()
+            val registerErrorUiModel: RegisterErrorUiStateModel = RegisterErrorUiStateModel(),
         ): State()
 
         data object Success: State()
@@ -16,6 +16,5 @@ data class RegisterUiStateModel(
 }
 
 data class RegisterErrorUiStateModel(
-    val success: Boolean = false,
-    val errorMessage: String? = null
+    val errorMessage: String = "Les mots de passe ne correspondent pas"
 )

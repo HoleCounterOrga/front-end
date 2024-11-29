@@ -23,7 +23,7 @@ fun RegisterInitScreen(
     )
 
     CardRegisterComponent(
-        registerFormUiModel = state.registerFormUiModel,
+        state = state,
         onLoginClicked = onLogin,
         onRegisterClicked = onRegister,
         onValueChange = onValueChange

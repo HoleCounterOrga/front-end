@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hole.counter.domain.authentication.register.RegisterUseCase
 import com.hole.counter.domain.authentication.register.models.RegisterUseCaseModel
 import com.hole.counter.viewmodels.register.mappers.RegisterFormMappers
+import com.hole.counter.viewmodels.register.models.RegisterErrorUiStateModel
 import com.hole.counter.viewmodels.register.models.RegisterTextFields
 import com.hole.counter.viewmodels.register.models.RegisterUiStateModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,10 +24,11 @@ class RegisterViewModel(
 
     fun onValueChange(value: String, field: RegisterTextFields){
         val currentState = viewState.value.state as? RegisterUiStateModel.State.Init ?: return
+
         _viewState.update {
             it.copy(
                 state = currentState.copy(
-                    registerFormUiModel = registerFormMappers.mapTo(currentState.registerFormUiModel, value, field)
+                    registerFormUiModel = registerFormMappers.mapTo(currentState.registerFormUiModel, value, field),
                 )
             )
         }
@@ -35,6 +37,17 @@ class RegisterViewModel(
     fun register() {
         val currentState = viewState.value.state as? RegisterUiStateModel.State.Init ?: return
         val formData = currentState.registerFormUiModel
+
+        if(!arePasswordsMatching()){
+            _viewState.update {
+                it.copy(
+                    state = currentState.copy(
+                        registerErrorUiModel = registerFormMappers.mapToError()
+                    )
+                )
+            }
+        }
+
         viewModelScope.launch {
             val updatedState = when(registerUseCase(formData.username, formData.email, formData.password, formData.passwordConfirmation)){
                 is RegisterUseCaseModel.Success -> {
@@ -49,5 +62,11 @@ class RegisterViewModel(
                 )
             }
         }
+    }
+
+    private fun arePasswordsMatching(): Boolean{
+        val currentState = viewState.value.state as RegisterUiStateModel.State.Init
+        return (currentState.registerFormUiModel.password.isNotEmpty() && currentState.registerFormUiModel.passwordConfirmation.isNotEmpty()
+                && currentState.registerFormUiModel.password.isNotEmpty() == currentState.registerFormUiModel.passwordConfirmation.isNotEmpty())
     }
 }

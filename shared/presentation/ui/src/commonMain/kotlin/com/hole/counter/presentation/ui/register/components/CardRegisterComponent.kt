@@ -25,63 +25,54 @@ import androidx.compose.ui.unit.sp
 import com.hole.counter.presentation.ui.commons.components.TextFieldComponent
 import com.hole.counter.viewmodels.register.models.RegisterFormUiModel
 import com.hole.counter.viewmodels.register.models.RegisterTextFields
+import com.hole.counter.viewmodels.register.models.RegisterUiStateModel
 
 @Composable
 fun CardRegisterComponent(
-    registerFormUiModel: RegisterFormUiModel,
+    state: RegisterUiStateModel.State.Init,
     onRegisterClicked: () -> Unit,
     onLoginClicked: () -> Unit,
     onValueChange: (String, RegisterTextFields) -> Unit,
 ) {
-
-    val passwordsMatch = registerFormUiModel.password == registerFormUiModel.passwordConfirmation
-
     Column {
         // Champs de texte et logique d'affichage
         TextFieldComponent(
-            value = registerFormUiModel.username,
+            value = state.registerFormUiModel.username,
             placeholder = "Nom d'utilisateur",
             onValueChange = { onValueChange(it,RegisterTextFields.Username ) }
         )
         TextFieldComponent(
-            value = registerFormUiModel.email,
+            value = state.registerFormUiModel.email,
             placeholder = "Adresse Email",
             onValueChange = { onValueChange(it,RegisterTextFields.Email ) }
         )
         TextFieldComponent(
             isPassword = true,
-            value = registerFormUiModel.password,
+            value = state.registerFormUiModel.password,
             placeholder = "Mot de passe",
             onValueChange = { onValueChange(it,RegisterTextFields.Password ) }
         )
         TextFieldComponent(
             isPassword = true,
-            value =  registerFormUiModel.passwordConfirmation,
+            value = state.registerFormUiModel.passwordConfirmation,
             placeholder = "Confirmer le Mot de passe",
             onValueChange = { onValueChange(it,RegisterTextFields.PasswordConfirmation ) }
         )
 
-        if (registerFormUiModel.password != registerFormUiModel.passwordConfirmation) {
-            Text(
-                text = "Les mots de passe ne correspondent pas",
-                color = androidx.compose.ui.graphics.Color.Red
-            )
-        }
-
         // Bouton pour créer l'utilisateur
         Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             onClick = {
-                if (passwordsMatch) {
-                    onRegisterClicked()
-                }
+                onRegisterClicked()
             },
+            enabled = true,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Color.Black,
                 contentColor = Color.White
             ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+
 
         ) {
             Text(text = "Créer un compte")
