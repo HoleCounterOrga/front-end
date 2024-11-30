@@ -25,15 +25,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hole.counter.presentation.ui.commons.components.TextFieldComponent
+import com.hole.counter.viewmodels.login.mappers.LoginTextField
+import com.hole.counter.viewmodels.login.models.LoginUiStateModel
 
 @Composable
 fun CardLoginComponent(
     onLoginClicked: () -> Unit,
+    onValueChange: (String, LoginTextField) -> Unit,
+    state: LoginUiStateModel.State.Init
     //onCheckedChange: (Boolean) -> Unit
 ) {
 
-    val username = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
     var checked by remember { mutableStateOf(true) }
 
     Card(
@@ -57,16 +59,16 @@ fun CardLoginComponent(
 
             // Champ nom d'utilisateur
             TextFieldComponent(
-                value = username.value,
+                value = state.loginFormUiModel.username,
                 placeholder = "Nom d'utilisateur",
-                onValueChange = { username.value = it }
+                onValueChange = { onValueChange(it, LoginTextField.Username) }
             )
 
             TextFieldComponent(
                 isPassword = true,
-                value = password.value,
+                value = state.loginFormUiModel.password,
                 placeholder = "Mot de passe",
-                onValueChange = { password.value = it }
+                onValueChange = { onValueChange(it, LoginTextField.Password) }
             )
 
             /*

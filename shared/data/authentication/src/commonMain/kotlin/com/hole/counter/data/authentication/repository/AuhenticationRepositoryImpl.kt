@@ -16,7 +16,7 @@ class AuthenticationRepositoryImpl(
                 username = username,
                 email = email,
                 password = password,
-                role = role
+                role = "user"
             )
 
             val response: HttpResponse = httpClient.post("http://10.0.2.2:8000/api/auth/register") {
@@ -62,6 +62,7 @@ data class RegisterRequest(
     val role: String
 )
 
+@Serializable
 data class LoginRequest(
     val grant_pattern: String,
     val username: String,

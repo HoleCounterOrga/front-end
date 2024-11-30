@@ -11,6 +11,7 @@ import com.hole.counter.viewmodels.leaderboard.LeaderBoardViewModel
 import com.hole.counter.domain.authentication.di.authDomainModule
 import com.hole.counter.domain.targets.di.targetsRepositoryModule
 import com.hole.counter.viewmodels.register.mappers.RegisterFormMappers
+import com.hole.counter.viewmodels.login.mappers.LoginFormMappers
 
 val viewModelsModule = module {
 
@@ -37,6 +38,7 @@ val viewModelsModule = module {
     factoryOf(::RegisterViewModel)
     factoryOf(::LoginViewModel)
     factoryOf(::LeaderBoardViewModel)
+    factoryOf(::LoginFormMappers)
 
     factoryOf(::RegisterFormMappers)
 }

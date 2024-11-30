@@ -14,8 +14,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.hole.counter.presentation.ui.login.components.CardLoginComponent
+import com.hole.counter.presentation.ui.login.components.LoginInitScreen
 import com.hole.counter.presentation.ui.login.navigator.LoginComponent
 import com.hole.counter.viewmodels.login.LoginViewModel
+import com.hole.counter.viewmodels.login.models.LoginUiStateModel
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -23,6 +25,7 @@ fun LoginScreen(
     component: LoginComponent,
     loginViewModel: LoginViewModel = koinViewModel()
 ){
+    val viewState by loginViewModel.viewState.collectAsState()
 
     Scaffold {
         Column(
@@ -31,19 +34,17 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center, // Centre verticalement
             horizontalAlignment = Alignment.CenterHorizontally // Centre horizontalement
         )  {
-
-            Text(
-                text = "Hole Counter",
-                fontSize = 50.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.Cursive
-            )
-
-            CardLoginComponent(
-                onLoginClicked = {
-                    component.onLogin()
+            when(val state = viewState.state){
+                is LoginUiStateModel.State.Success -> component.onHome()
+                is LoginUiStateModel.State.Failure -> { Text("ERROR")}
+                is LoginUiStateModel.State.Init -> {
+                    LoginInitScreen(
+                        state = state,
+                        onValueChange = loginViewModel::onValueChange,
+                        onLogin = loginViewModel::login,
+                    )
                 }
-            )
+            }
         }
     }
 }

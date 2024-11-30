@@ -5,10 +5,10 @@ import com.hole.counter.presentation.ui.home.navigator.HomeComponent
 
 class DefaultLoginComponent(
     componentContext: ComponentContext,
-    private val onLoginNavigation: () -> Unit,
+    private val onHomeNavigation: () -> Unit,
 ) : LoginComponent, ComponentContext by componentContext {
 
-    override fun onLogin() {
-        onLoginNavigation()
+    override fun onHome() {
+        onHomeNavigation()
     }
 }
