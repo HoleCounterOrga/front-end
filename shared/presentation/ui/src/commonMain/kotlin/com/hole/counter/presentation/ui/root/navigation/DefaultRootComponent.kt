@@ -56,13 +56,14 @@ class DefaultRootComponent(
     private fun loginComponent(componentContext: ComponentContext): LoginComponent =
         DefaultLoginComponent(
             componentContext = componentContext,
-            onLoginNavigation = { navigation.replaceAll(Config.Home) },
+            onHomeNavigation = { navigation.replaceAll(Config.Home) },
         )
 
     private fun registerComponent(componentContext: ComponentContext): RegisterComponent =
         DefaultRegisterComponent(
             componentContext = componentContext,
-            onRegisterNavigation = { navigation.replaceAll(Config.Login)}
+            onRegisterNavigation = { navigation.replaceAll(Config.Login)},
+            onLoginNavigation = { navigation.push(Config.Login)}
         )
 
     private fun addTargetComponent(componentContext: ComponentContext): AddTargetComponent =

@@ -11,6 +11,8 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -18,8 +20,10 @@ fun TextFieldComponent(
     value: String,
     placeholder: String,
     onValueChange: (String) -> Unit,
+    isPassword: Boolean? = false
 ){
     TextField(
+        visualTransformation = if (isPassword == true) PasswordVisualTransformation() else VisualTransformation.None,
         value = value,
         onValueChange = onValueChange,
         placeholder = { Text(placeholder) },
