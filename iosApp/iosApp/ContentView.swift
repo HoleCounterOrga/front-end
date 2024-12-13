@@ -1,9 +1,16 @@
+import UIKit
 import SwiftUI
 import shared
 
-fun MainViewController() = ComposeUIViewController {
-    val rootComponent = remember {
-        DefaultRootComponent(DefaultComponentContext(ApplicationLifecycle()))
+struct RootView: UIViewControllerRepresentable {
+    let root: RootComponent
+
+    func makeUIViewController(context: Context) -> UIViewController {
+        let controller = RootViewControllerKt.rootViewController(root: root)
+        controller.overrideUserInterfaceStyle = .light
+        return controller
     }
-    App(rootComponent = rootComponent)
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+    }
 }
