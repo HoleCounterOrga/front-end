@@ -7,6 +7,9 @@ plugins {
 }
 
 kotlin {
+
+    applyDefaultHierarchyTemplate()
+
     androidTarget {
         compilations.all {
             kotlinOptions {
@@ -21,8 +24,11 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "ui"
+            baseName = "shared"
             isStatic = true
+
+            export(libs.decompose)
+            export(libs.essenty.lifecycle)
         }
     }
 
@@ -40,7 +46,8 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.composeVM)
 
-            implementation(libs.decompose)
+            api(libs.decompose)
+            api(libs.essenty.lifecycle)
             implementation(libs.decompose.extensions.compose)
 
             implementation(project(":shared:presentation:viewmodels"))
