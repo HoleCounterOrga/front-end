@@ -32,8 +32,8 @@ fun SplashScreen(
         ) {
             when(val state = viewState.state){
                 is SplashScreenUiModel.State.Init -> Text("Replace with loader")
-                is SplashScreenUiModel.State.Success -> Text("Failure")
-                is SplashScreenUiModel.State.Failure -> Text("Success")
+                is SplashScreenUiModel.State.Success -> Text("Success")
+                is SplashScreenUiModel.State.Failure -> Text("Failure")
             }
         }
     }

@@ -8,9 +8,11 @@ class GetUserTokenUseCaseImpl(
     private val localEncryptedPreferencesRepository: LocalEncryptedPreferencesRepository
 ): GetUserTokenUseCase {
 
-    override suspend fun invoke(): GetUserTokenUseCaseModel =
-        when(localEncryptedPreferencesRepository()){
+    override suspend fun invoke(): GetUserTokenUseCaseModel{
+        return when(localEncryptedPreferencesRepository()){
             is LocalEncryptedPreferencesRepositoryModel.Success -> GetUserTokenUseCaseModel.Success
             is LocalEncryptedPreferencesRepositoryModel.Failure -> GetUserTokenUseCaseModel.Failure
         }
+    }
+
 }
