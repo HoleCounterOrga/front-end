@@ -18,28 +18,16 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "viewmodels"
+            baseName = "encrypted-preferences"
             isStatic = true
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            //put your multiplatform dependencies here
-            api(libs.koin.core)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.composeVM)
-
-            implementation(project(":shared:core:http"))
-            implementation(project(":shared:core:encrypted-preferences"))
-            implementation(project(":shared:data:authentication"))
-            implementation(project(":shared:data:targets"))
-            implementation(project(":shared:domain:authentication"))
-        }
-
-        androidMain.dependencies {
-            implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
+            implementation(libs.koin.core)
+            implementation("androidx.security:security-crypto:1.1.0-alpha03")
+            implementation(libs.multiplatform.settings)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -48,7 +36,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.hole.counter.viewmodels"
+    namespace = "com.hole.counter.core.encrypted_preferences"
     compileSdk = 34
     defaultConfig {
         minSdk = 24

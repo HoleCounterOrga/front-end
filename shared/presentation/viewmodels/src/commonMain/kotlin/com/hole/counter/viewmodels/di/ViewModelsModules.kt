@@ -1,6 +1,7 @@
 package com.hole.counter.viewmodels.di
 
 import com.hole.counter.core.http.di.httpCoreModule
+import  com.hole.counter.core.encrypted_preferences.di.encryptedPreferencesModule
 import com.hole.counter.data.authentication.di.authRepositoryModule
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
@@ -29,6 +30,7 @@ val viewModelsModule = module {
 
     factoryOf(::HomeViewModel)*/
     includes(httpCoreModule)
+    includes(encryptedPreferencesModule)
 
     includes(authRepositoryModule)
     includes(targetsRepositoryModule)
