@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hole.counter.domain.user.getusertoken.GetUserTokenUseCase
 import com.hole.counter.domain.user.getusertoken.models.GetUserTokenUseCaseModel
+import com.hole.counter.domain.user.setusertoken.SetUserTokenUseCase
 import com.hole.counter.viewmodels.splashscreen.mappers.SplashScreenUiMappers
 import com.hole.counter.viewmodels.splashscreen.models.SplashScreenUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class SplashScreenViewModel(
     private val getUserTokenUseCase: GetUserTokenUseCase,
+    private val setUserTokenUseCase: SetUserTokenUseCase,
     private val splashScreenUiMappers: SplashScreenUiMappers,
 ): ViewModel(){
 
@@ -21,8 +23,16 @@ class SplashScreenViewModel(
     val viewState: StateFlow<SplashScreenUiModel> = _viewState.asStateFlow()
 
     init {
+        //testSet()
         getUserToken()
     }
+
+    /*
+    private fun testSet(){
+        viewModelScope.launch {
+            setUserTokenUseCase()
+        }
+    }*/
 
     private fun getUserToken(){
         viewModelScope.launch {

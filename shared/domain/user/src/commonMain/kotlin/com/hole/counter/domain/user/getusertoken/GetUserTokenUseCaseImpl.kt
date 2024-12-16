@@ -9,7 +9,7 @@ class GetUserTokenUseCaseImpl(
 ): GetUserTokenUseCase {
 
     override suspend fun invoke(): GetUserTokenUseCaseModel{
-        return when(localEncryptedPreferencesRepository()){
+        return when(localEncryptedPreferencesRepository.getTokens()){
             is LocalEncryptedPreferencesRepositoryModel.Success -> GetUserTokenUseCaseModel.Success
             is LocalEncryptedPreferencesRepositoryModel.Failure -> GetUserTokenUseCaseModel.Failure
         }

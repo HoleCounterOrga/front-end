@@ -7,10 +7,10 @@ import com.hole.counter.data.user.localencryptedprefs.models.TokenRepositoryMode
 class LocalEncryptedPreferencesRepositoryImpl(
     private val encryptedPreferences: EncryptedPreferences
 ): LocalEncryptedPreferencesRepository{
-    override suspend fun invoke(): LocalEncryptedPreferencesRepositoryModel {
-        val tokenSettings = encryptedPreferences.getSharedPreferences("token")
-        println("MYLOG: In reposutor")
-        return if (tokenSettings.hasKey("token") && tokenSettings.hasKey("refresh_token")) {
+
+    override suspend fun getTokens(): LocalEncryptedPreferencesRepositoryModel {
+        val settings = encryptedPreferences.getSharedPreferences("token")
+        return if (settings.hasKey("token") && settings.hasKey("refresh_token")) {
             val token = encryptedPreferences.getSharedPreferences("token").getString("token", "")
             val refreshToken = encryptedPreferences.getSharedPreferences("token").getString("refresh_token", "")
             LocalEncryptedPreferencesRepositoryModel.Success(
@@ -19,5 +19,11 @@ class LocalEncryptedPreferencesRepositoryImpl(
         } else {
             LocalEncryptedPreferencesRepositoryModel.Failure
         }
+    }
+
+    override suspend fun setTokens() {
+        val settings = encryptedPreferences.getSharedPreferences("token")
+        settings.putString("token", "test")
+        settings.putString("refresh_token", "test")
     }
 }
