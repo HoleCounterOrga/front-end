@@ -35,6 +35,7 @@ kotlin {
             implementation(project(":shared:data:authentication"))
             implementation(project(":shared:data:targets"))
             implementation(project(":shared:domain:authentication"))
+            implementation(project(":shared:domain:user"))
         }
 
         androidMain.dependencies {

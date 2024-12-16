@@ -19,6 +19,7 @@ import com.hole.counter.presentation.ui.login.LoginScreen
 import com.hole.counter.presentation.ui.register.RegisterScreen
 import com.hole.counter.presentation.ui.root.navigation.RootComponent
 import com.hole.counter.presentation.ui.root.navigation.RootComponent.Child
+import com.hole.counter.presentation.ui.splashscreen.SplashScreen
 
 @Composable
 fun RootContent(
@@ -34,6 +35,7 @@ fun RootContent(
             animation = stackAnimation(fade() + scale())
         ) {
             when (val instance = it.instance) {
+                is Child.Splash -> SplashScreen(component = instance.component)
                 is Child.Home -> HomeScreen(component = instance.component)
                 is Child.Login -> LoginScreen(component = instance.component)
                 is Child.Register -> RegisterScreen(component = instance.component)

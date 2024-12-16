@@ -5,6 +5,7 @@ import  com.hole.counter.core.encrypted_preferences.di.encryptedPreferencesModul
 import com.hole.counter.data.authentication.di.authRepositoryModule
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
+import com.hole.counter.viewmodels.splashscreen.SplashScreenViewModel
 import com.hole.counter.viewmodels.home.HomeViewModel
 import com.hole.counter.viewmodels.register.RegisterViewModel
 import com.hole.counter.viewmodels.login.LoginViewModel
@@ -13,6 +14,7 @@ import com.hole.counter.domain.authentication.di.authDomainModule
 import com.hole.counter.domain.targets.di.targetsRepositoryModule
 import com.hole.counter.viewmodels.register.mappers.RegisterFormMappers
 import com.hole.counter.viewmodels.login.mappers.LoginFormMappers
+import com.hole.counter.domain.user.di.userDomainModule
 
 val viewModelsModule = module {
 
@@ -35,7 +37,9 @@ val viewModelsModule = module {
     includes(authRepositoryModule)
     includes(targetsRepositoryModule)
     includes(authDomainModule)
+    includes(userDomainModule)
 
+    factoryOf(::SplashScreenViewModel)
     factoryOf(::HomeViewModel)
     factoryOf(::RegisterViewModel)
     factoryOf(::LoginViewModel)
