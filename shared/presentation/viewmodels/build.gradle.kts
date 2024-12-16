@@ -34,6 +34,7 @@ kotlin {
             implementation(project(":shared:core:encrypted-preferences"))
             implementation(project(":shared:data:authentication"))
             implementation(project(":shared:data:targets"))
+            implementation(project(":shared:data:user"))
             implementation(project(":shared:domain:authentication"))
             implementation(project(":shared:domain:user"))
         }

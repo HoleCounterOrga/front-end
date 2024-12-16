@@ -3,6 +3,7 @@ package com.hole.counter.viewmodels.di
 import com.hole.counter.core.http.di.httpCoreModule
 import  com.hole.counter.core.encrypted_preferences.di.encryptedPreferencesModule
 import com.hole.counter.data.authentication.di.authRepositoryModule
+import com.hole.counter.data.user.di.userRepositoryModule
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 import com.hole.counter.viewmodels.splashscreen.SplashScreenViewModel
@@ -36,6 +37,8 @@ val viewModelsModule = module {
 
     includes(authRepositoryModule)
     includes(targetsRepositoryModule)
+    includes(userRepositoryModule)
+
     includes(authDomainModule)
     includes(userDomainModule)
 
