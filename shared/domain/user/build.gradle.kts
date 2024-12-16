@@ -25,7 +25,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            //put your multiplatform dependencies here
+            api(libs.koin.core)
+
+            implementation(project(":shared:data:user"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

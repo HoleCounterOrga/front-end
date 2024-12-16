@@ -4,7 +4,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.replaceAll
@@ -19,8 +18,10 @@ import com.hole.counter.presentation.ui.login.navigator.DefaultLoginComponent
 import com.hole.counter.presentation.ui.login.navigator.LoginComponent
 import com.hole.counter.presentation.ui.register.navigator.DefaultRegisterComponent
 import com.hole.counter.presentation.ui.register.navigator.RegisterComponent
-import kotlinx.serialization.Serializable
 import com.hole.counter.presentation.ui.root.navigation.RootComponent.Child
+import com.hole.counter.presentation.ui.splashscreen.navigator.DefaultSplashScreenComponent
+import com.hole.counter.presentation.ui.splashscreen.navigator.SplashScreenComponent
+import kotlinx.serialization.Serializable
 
 class DefaultRootComponent(
     componentContext: ComponentContext,
@@ -32,19 +33,27 @@ class DefaultRootComponent(
         childStack(
             source = navigation,
             serializer = Config.serializer(),
-            initialConfiguration = Config.Register,
+            initialConfiguration = Config.Splash,
             handleBackButton = true,
             childFactory = ::child,
         )
 
     private fun child(config: Config, childComponentContext: ComponentContext): Child =
         when (config) {
+            is Config.Splash -> Child.Splash(splashComponent(childComponentContext))
             is Config.Home -> Child.Home(homeComponent(childComponentContext))
             is Config.Login -> Child.Login(loginComponent(childComponentContext))
             is Config.Register -> Child.Register(registerComponent(childComponentContext))
             is Config.AddTarget -> Child.AddTarget(addTargetComponent(childComponentContext))
             is Config.LeaderBoard -> Child.LeaderBoard(leaderComponent(childComponentContext))
         }
+
+    private fun splashComponent(componentContext: ComponentContext): SplashScreenComponent =
+        DefaultSplashScreenComponent(
+            componentContext = componentContext,
+            onAccountSetNavigation = {},
+            onNotSetNavigation = {}
+        )
 
     private fun homeComponent(componentContext: ComponentContext): HomeComponent =
         DefaultHomeComponent(
@@ -85,6 +94,10 @@ class DefaultRootComponent(
 
     @Serializable
     private sealed interface Config {
+
+        @Serializable
+        data object Splash : Config
+
         @Serializable
         data object Login : Config
 

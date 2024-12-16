@@ -7,6 +7,7 @@ import com.hole.counter.presentation.ui.home.navigator.HomeComponent
 import com.hole.counter.presentation.ui.leaderboard.navigator.LeaderComponent
 import com.hole.counter.presentation.ui.login.navigator.LoginComponent
 import com.hole.counter.presentation.ui.register.navigator.RegisterComponent
+import com.hole.counter.presentation.ui.splashscreen.navigator.SplashScreenComponent
 
 interface RootComponent {
 
@@ -15,6 +16,7 @@ interface RootComponent {
     fun onBackClicked(toIndex: Int)
 
     sealed class Child {
+        class Splash(val component: SplashScreenComponent) : Child()
         class Home(val component: HomeComponent): Child()
         class Register(val component: RegisterComponent) : Child()
         class Login(val component: LoginComponent) : Child()

@@ -25,7 +25,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            //put your multiplatform dependencies here
+            api(libs.koin.core)
+
+            implementation(project(":shared:core:encrypted-preferences"))
+            implementation(libs.multiplatform.settings)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
